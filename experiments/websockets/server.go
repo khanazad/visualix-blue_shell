@@ -12,7 +12,6 @@ type Client struct {
 }
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("hello ws")
 	upgrader := websocket.Upgrader{ReadBufferSize:  1024, WriteBufferSize: 1024,}
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -35,8 +34,11 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/echo", serveWs)
+	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Hello world")
+	})
 
-	err := http.ListenAndServe("0.0.0.0:8080", nil)
+	err := http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

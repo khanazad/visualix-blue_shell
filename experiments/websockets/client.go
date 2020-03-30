@@ -1,16 +1,25 @@
 package main
 
 import (
+	"crypto/tls"
 	"github.com/gorilla/websocket"
 	"log"
+	"net/http"
 	"net/url"
 	"time"
 )
 
-var addr = "localhost:8080"
+var addr = "localhost:8443"
+
+// This is only for test purposes, in general, clients should only accept signed certificates
+func enableSelfSignedCerts() {
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	websocket.DefaultDialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+}
 
 func main() {
-	u := url.URL{Scheme:"ws", Host: addr, Path: "/echo"}
+	enableSelfSignedCerts()
+	u := url.URL{Scheme:"wss", Host: addr, Path: "/echo"}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
