@@ -1,0 +1,4 @@
+simulation/bin/
+simulation/include/
+simulation/lib64/
+simulation/pyvenv.cfg
