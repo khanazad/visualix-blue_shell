@@ -3,3 +3,4 @@ simulation/include
 simulation/lib
 simulation/lib64
 simulation/pyvenv.cfg
+simulation/test_zmq/secure-locate-certs
